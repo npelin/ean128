@@ -41,6 +41,7 @@
                     Quagga.onDetected(function(data){
                         console.log(data);
                         alert(data.codeResult.code);
+                        $("#msg").html(JSON.stringify(data));
                     })
                 });
             }
@@ -54,6 +55,7 @@
         <div>
             <span id="my_result" style="height: 100"></span>
         </div>
+        <div id="msg"></div>
         <div>
             <button onclick="qinit()">開始掃描</button>
             <button onclick="qstop()">停止掃描</button>
