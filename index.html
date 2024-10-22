@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-widthj, initial-scale=1.0">
+        <title>scan test</title>
+        <script
+  src="https://code.jquery.com/jquery-1.12.4.min.js"
+  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script>
+        <script src="./quagga.min.js"></script>
+        <script>
+            function qinit(){
+                Quagga.init({
+                    inputStream : {
+                        name: "Live",
+                        type: "LiveStream",
+                        target: document.querySelector('#my_result')
+                    },
+                    decoder : {
+                        readers : ['code_128_reader'],
+                        debug: {
+                            drawBoundingBox: false,
+                            showFrequency: false,
+                            drawScanline: false,
+                            showPattern: false
+                        },
+                        multiple: false
+                    }
+                },
+                function(err){
+                    if(err){
+                        console.dir(err);
+                        alert('error of init camera');
+                        return;
+                    }
+                    console.log("initialization finished. Ready to start");
+                    Quagga.start();
+
+                    Quagga.onDetected(function(data){
+                        console.log(data);
+                        alert(data.codeResult.code);
+                    })
+                });
+            }
+
+            function qstop(){
+                Quagga.stop();
+            }
+        </script>
+    </head>
+    <body>
+        <div>
+            <span id="my_result" style="height: 100"></span>
+        </div>
+        <div>
+            <button onclick="qinit()">開始掃描</button>
+            <button onclick="qstop()">停止掃描</button>
+        </div>
+    </body>
+</html>
